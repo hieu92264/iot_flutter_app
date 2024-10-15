@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iot_flutter_app/screens/forgot_password.dart';
+import 'package:iot_flutter_app/screens/login2.dart';
+import 'package:iot_flutter_app/screens/register.dart';
 import 'components/base_screen.dart';
 import 'components/asset_card.dart';
 
@@ -9,9 +12,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainScreen(),
-    );
+    // return MaterialApp(
+    //   home: LoginScreen(),
+    // );
+    return MaterialApp(initialRoute: '/', routes: {
+      '/': (context) => LoginScreen(),
+      '/home': (context) => MainScreen(),
+      '/register': (context) => RegisterScreen(),
+      '/forgot_password': (context) => ForgotPasswordScreen(),
+    });
   }
 }
 
@@ -30,7 +39,7 @@ class MainScreen extends StatelessWidget {
             AssetCard(
                 assetName: 'BTC',
                 amount: '0.48',
-                assetIcon: 'assets/logo_vmu.png'),
+                assetIcon: 'assets/images/logo_vmu.png'),
             // AssetCard(
             //     assetName: 'LTC', amount: '5.08', assetIcon: 'assets/ltc.png'),
             // AssetCard(

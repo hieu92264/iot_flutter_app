@@ -1,35 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class HeaderBar extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Total Balance (USD)',
-//             style: TextStyle(color: Colors.white, fontSize: 18),
-//           ),
-//           Text(
-//             '\$42,296.21',
-//             style: TextStyle(
-//               color: Colors.white,
-//               fontSize: 32,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//           Text(
-//             '+8.82% (+\$70)',
-//             style: TextStyle(color: Colors.greenAccent, fontSize: 16),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 
 class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
@@ -45,7 +13,7 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: isBackButtonVisible
           ? IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.of(context).pop(); // Quay lại màn hình trước
               },
@@ -63,7 +31,7 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.settings, color: Colors.white),
+          icon: const Icon(Icons.settings, color: Colors.white),
           onPressed: () {
             // Xử lý hành động cài đặt ở đây
           },
@@ -73,5 +41,5 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
