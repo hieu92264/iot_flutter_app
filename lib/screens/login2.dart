@@ -236,17 +236,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: Center(
-                        child: TextUtil(
-                          text: "Don't have an account? REGISTER",
-                          size: 12,
-                          weight: true,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child: TextUtil(
+                            text: "Don't have an account ?   ",
+                            size: 12,
+                            weight: true,
+                          ),
                         ),
-                      ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/register');
+                          },
+                          child: TextUtil(
+                            text: "REGISTER",
+                            size: 12,
+                            weight: true,
+                          ),
+                        ),
+                      ],
                     ),
                     const Spacer(),
                     if (loginStatus.isNotEmpty)
