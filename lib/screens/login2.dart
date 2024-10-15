@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iot_flutter_app/controllers/AuthController.dart';
-import 'package:iot_flutter_app/screens/register.dart';
+// import 'package:iot_flutter_app/screens/register.dart';
 import 'package:iot_flutter_app/utils/text_utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final Authcontroller _authcontroller = Authcontroller();
+  final AuthController _authController = AuthController();
   String loginStatus = '';
   bool rememberMe = false; // Biến để theo dõi trạng thái của checkbox
   bool isLoading = false; // Biến để quản lý trạng thái loading
@@ -110,30 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const Spacer(),
-                    // Row(
-                    //   children: [
-                    //     Checkbox(
-                    //       value: rememberMe,
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           rememberMe = value!;
-                    //         });
-                    //       },
-                    //       activeColor: Colors.white,
-                    //       checkColor: Colors.black,
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     Expanded(
-                    //       child: TextUtil(
-                    //         text: "Remember Me , FORGET PASSWORD",
-                    //         size: 12,
-                    //         weight: true,
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
                     Row(
                       children: [
                         Checkbox(
@@ -180,9 +156,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const Spacer(),
                     if (isLoading) // Hiển thị loading nếu đang đăng nhập
-                      Center(child: CircularProgressIndicator())
+                      const Center(child: CircularProgressIndicator())
                     else
                       GestureDetector(
+                        // onTap: () async {
+                        //   String? validationMessage = validateInput();
+                        //   if (validationMessage != null) {
+                        //     setState(() {
+                        //       loginStatus = validationMessage;
+                        //     });
+                        //     return;
+                        //   }
+
+                        //   setState(() {
+                        //     isLoading = true;
+                        //     loginStatus = '';
+                        //   });
+
+                        //   const response = await _authcontroller.doLogin(
+                        //       _usernameController.text,
+                        //       _passwordController.text,
+                        //       context);
+
+                        //   setState(() {
+                        //     isLoading = false; // Kết thúc loading
+                        //     loginStatus =
+                        //         'Login successful'; // Hoặc xử lý thông báo khác
+                        //   });
+                        //   // String username = _usernameController.text;
+                        //   // String password = _passwordController.text;
+
+                        //   // Navigator.pushReplacementNamed(context, '/home');
+                        //   Navigator.pushReplacementNamed(context, '/list-wifi');
+
+                        //   // String result = await _authcontroller.doLogin(
+                        //   //     username, password, context);
+
+                        //   // setState(() {
+                        //   //   // loginStatus =
+                        //   //   //     result; // Cập nhật thông báo sau khi đăng nhập
+                        //   //   isLoading = false; // Kết thúc loading
+                        //   // });
+                        // },
                         onTap: () async {
                           String? validationMessage = validateInput();
                           if (validationMessage != null) {
@@ -198,28 +213,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             loginStatus = ''; // Xóa thông báo trước đó
                           });
 
-                          // Giả lập quá trình đăng nhập với độ trễ
-                          await Future.delayed(const Duration(
-                              seconds: 2)); // Giả lập 2 giây loading
+                          // Gọi API đăng nhập
+                          String response = await _authController.doLogin(
+                              _usernameController.text,
+                              _passwordController.text,
+                              context);
 
                           setState(() {
                             isLoading = false; // Kết thúc loading
-                            loginStatus =
-                                'Login successful'; // Hoặc xử lý thông báo khác
+                            loginStatus = response; // Cập nhật thông báo
                           });
-                          // String username = _usernameController.text;
-                          // String password = _passwordController.text;
 
-                          Navigator.pushReplacementNamed(context, '/home');
-
-                          // String result = await _authcontroller.doLogin(
-                          //     username, password, context);
-
-                          // setState(() {
-                          //   // loginStatus =
-                          //   //     result; // Cập nhật thông báo sau khi đăng nhập
-                          //   isLoading = false; // Kết thúc loading
-                          // });
+                          if (response == "success") {
+                            // Nếu đăng nhập thành công, điều hướng tới màn hình tiếp theo
+                            Navigator.pushReplacementNamed(
+                                context, '/list-wifi');
+                          }
                         },
                         child: Container(
                           height: 40,

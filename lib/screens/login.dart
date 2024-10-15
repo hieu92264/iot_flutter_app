@@ -190,7 +190,7 @@ class _ContentState extends State<Content> {
   bool _isLoading = false;
 
   Future<void> _login() async {
-    final Authcontroller _authController = Authcontroller();
+    final AuthController _authController = AuthController();
 
     if (!_formKey.currentState!.validate()) {
       return;
