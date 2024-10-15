@@ -41,7 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         alignment: Alignment.center,
         child: Container(
-          height: 400,
+          height: 300,
           width: double.infinity,
           margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
@@ -58,6 +58,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Nút Back nằm trong Container
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context); // Quay lại trang trước
+                          },
+                        ),
+                      ],
+                    ),
                     const Spacer(),
                     Center(
                       child: TextUtil(
@@ -72,7 +83,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.white),

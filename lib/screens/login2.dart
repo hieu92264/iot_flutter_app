@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String loginStatus = '';
   bool rememberMe = false; // Biến để theo dõi trạng thái của checkbox
   bool isLoading = false; // Biến để quản lý trạng thái loading
+  bool _isPasswordVisible = false; // Thêm biến trạng thái để theo dõi xem mật khẩu có được hiển thị hay không
 
   // Hàm để kiểm tra đầu vào
   String? validateInput() {
@@ -93,16 +94,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
-                          border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          border: Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: !_isPasswordVisible, // Ẩn mật khẩu khi _isPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.white,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              // Thay đổi trạng thái hiển thị mật khẩu
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
                           ),
                           fillColor: Colors.white,
                           border: InputBorder.none,
