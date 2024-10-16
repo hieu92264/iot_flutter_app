@@ -160,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _repeatPasswordController =
       TextEditingController(); // Thêm biến cho Repeat Password
-  final Authcontroller _authcontroller = Authcontroller();
+  final AuthController _authcontroller = AuthController();
   String registerStatus = '';
   // Thêm các biến trạng thái để theo dõi xem mật khẩu và mật khẩu lặp lại có được hiển thị hay không
   bool _isPasswordVisible = false;
