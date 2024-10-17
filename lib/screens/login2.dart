@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iot_flutter_app/controllers/AuthController.dart';
-// import 'package:iot_flutter_app/screens/register.dart';
 import 'package:iot_flutter_app/utils/text_utils.dart';
 
 class LoginScreen extends StatefulWidget {

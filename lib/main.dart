@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iot_flutter_app/screens/forgot_password.dart';
+import 'package:iot_flutter_app/screens/login.dart';
 import 'package:iot_flutter_app/screens/login2.dart';
+import 'package:iot_flutter_app/screens/main_2.dart';
 import 'package:iot_flutter_app/screens/register.dart';
 import 'package:iot_flutter_app/screens/list_wifi.dart';
 
@@ -18,11 +20,12 @@ class MyApp extends StatelessWidget {
     //   home: LoginScreen(),
     // );
     return MaterialApp(initialRoute: '/', routes: {
-      '/': (context) => LoginScreen(),
+      '/': (context) => MainChinh(),
       '/home': (context) => MainScreen(),
       '/register': (context) => RegisterScreen(),
       '/forgot_password': (context) => ForgotPasswordScreen(),
       '/list-wifi': (context) => WiFiListScreen(),
+      '/main-chinh': (context) => MainChinh(),
     });
   }
 }
