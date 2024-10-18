@@ -1,19 +1,21 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class UserNguoiDung extends StatefulWidget {
-  const UserNguoiDung({super.key});
+class UserProfile extends StatefulWidget {
+  const UserProfile({super.key});
 
   @override
-  State<UserNguoiDung> createState() => _UserNguoiDungState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
-class _UserNguoiDungState extends State<UserNguoiDung> {
+class _UserProfileState extends State<UserProfile> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _verificationCodeController = TextEditingController();
+  final TextEditingController _verificationCodeController =
+      TextEditingController();
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _isOldPasswordVisible = false;
   bool _isNewPasswordVisible = false;
@@ -41,7 +43,8 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
               color: Colors.black.withOpacity(0.1), // Màu nền trong suốt
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15), // Áp dụng bo góc cho hiệu ứng mờ
+              borderRadius:
+                  BorderRadius.circular(15), // Áp dụng bo góc cho hiệu ứng mờ
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Hiệu ứng mờ
                 child: Padding(
@@ -51,11 +54,14 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                     children: [
                       const Text(
                         "USER",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       const SizedBox(height: 30),
                       const Text(
-                        "Đổi mật khẩu",
+                        "Change Password",
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       const SizedBox(height: 20),
@@ -70,10 +76,12 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                                   decoration: const InputDecoration(
                                     labelText: 'Email',
                                     labelStyle: TextStyle(color: Colors.white),
-                                    suffixIcon: Icon(Icons.mail, color: Colors.white),
+                                    suffixIcon:
+                                        Icon(Icons.mail, color: Colors.white),
                                     border: UnderlineInputBorder(),
                                     enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -81,9 +89,10 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                               const SizedBox(width: 10),
                               ElevatedButton(
                                 onPressed: _sendVerificationCode,
-                                child: const Text('Gửi mã'),
+                                child: const Text('Send Code'),
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                 ),
                               ),
                             ],
@@ -93,7 +102,7 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                             controller: _verificationCodeController,
                             style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
-                              labelText: 'Mã xác nhận',
+                              labelText: 'Verification Code',
                               labelStyle: TextStyle(color: Colors.white),
                               suffixIcon: Icon(Icons.code, color: Colors.white),
                               border: UnderlineInputBorder(),
@@ -108,16 +117,19 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                             obscureText: !_isOldPasswordVisible,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: 'Mật khẩu cũ',
+                              labelText: 'Old Password',
                               labelStyle: const TextStyle(color: Colors.white),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isOldPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isOldPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _isOldPasswordVisible = !_isOldPasswordVisible;
+                                    _isOldPasswordVisible =
+                                        !_isOldPasswordVisible;
                                   });
                                 },
                               ),
@@ -133,16 +145,19 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                             obscureText: !_isNewPasswordVisible,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: 'Mật khẩu mới',
+                              labelText: 'New Password',
                               labelStyle: const TextStyle(color: Colors.white),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isNewPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isNewPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _isNewPasswordVisible = !_isNewPasswordVisible;
+                                    _isNewPasswordVisible =
+                                        !_isNewPasswordVisible;
                                   });
                                 },
                               ),
@@ -158,16 +173,19 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                             obscureText: !_isConfirmPasswordVisible,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: 'Xác nhận mật khẩu',
+                              labelText: 'Confirm Password',
                               labelStyle: const TextStyle(color: Colors.white),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isConfirmPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                    _isConfirmPasswordVisible =
+                                        !_isConfirmPasswordVisible;
                                   });
                                 },
                               ),
@@ -182,9 +200,10 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                       const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: _changePassword, // Thay đổi mật khẩu
-                        child: const Text('Đổi mật khẩu'),
+                        child: const Text('Change Password'),
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -193,11 +212,12 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
                       const SizedBox(height: 20),
                       OutlinedButton(
                         onPressed: () {
-                          // Logic đăng xuất
+                          // Logic to log out
                         },
-                        child: const Text('Đăng xuất'),
+                        child: const Text('Log Out'),
                         style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 60, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -214,34 +234,34 @@ class _UserNguoiDungState extends State<UserNguoiDung> {
     );
   }
 
-  // Gửi mã xác nhận
+  // Send verification code
   void _sendVerificationCode() {
     String email = _emailController.text.trim();
     if (email.isNotEmpty) {
-      // Thêm logic gửi mã xác nhận đến email
+      // Logic to send verification code to email
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Mã xác nhận đã gửi đến $email')),
+        SnackBar(content: Text('Verification code sent to $email')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng nhập email hợp lệ')),
+        const SnackBar(content: Text('Please enter a valid email')),
       );
     }
   }
 
-  // Thay đổi mật khẩu
+  // Change password
   void _changePassword() {
-    // Logic thay đổi mật khẩu
+    // Logic to change the password
     String newPassword = _newPasswordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
 
     if (newPassword == confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đổi mật khẩu thành công')),
+        const SnackBar(content: Text('Password changed successfully')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mật khẩu không khớp')),
+        const SnackBar(content: Text('Passwords do not match')),
       );
     }
   }
