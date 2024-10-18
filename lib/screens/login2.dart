@@ -166,45 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Center(child: CircularProgressIndicator())
                     else
                       GestureDetector(
-                        // onTap: () async {
-                        //   String? validationMessage = validateInput();
-                        //   if (validationMessage != null) {
-                        //     setState(() {
-                        //       loginStatus = validationMessage;
-                        //     });
-                        //     return;
-                        //   }
-
-                        //   setState(() {
-                        //     isLoading = true;
-                        //     loginStatus = '';
-                        //   });
-
-                        //   const response = await _authcontroller.doLogin(
-                        //       _usernameController.text,
-                        //       _passwordController.text,
-                        //       context);
-
-                        //   setState(() {
-                        //     isLoading = false; // Kết thúc loading
-                        //     loginStatus =
-                        //         'Login successful'; // Hoặc xử lý thông báo khác
-                        //   });
-                        //   // String username = _usernameController.text;
-                        //   // String password = _passwordController.text;
-
-                        //   // Navigator.pushReplacementNamed(context, '/home');
-                        //   Navigator.pushReplacementNamed(context, '/list-wifi');
-
-                        //   // String result = await _authcontroller.doLogin(
-                        //   //     username, password, context);
-
-                        //   // setState(() {
-                        //   //   // loginStatus =
-                        //   //   //     result; // Cập nhật thông báo sau khi đăng nhập
-                        //   //   isLoading = false; // Kết thúc loading
-                        //   // });
-                        // },
                         onTap: () async {
                           String? validationMessage = validateInput();
                           if (validationMessage != null) {
@@ -292,3 +253,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
