@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iot_flutter_app/screens/forgot_password.dart';
-import 'package:iot_flutter_app/screens/login.dart';
 import 'package:iot_flutter_app/screens/login2.dart';
 import 'package:iot_flutter_app/screens/main_2.dart';
 import 'package:iot_flutter_app/screens/register.dart';
