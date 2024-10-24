@@ -16,9 +16,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   home: LoginScreen(),
-    // );
     return MaterialApp(initialRoute: '/', routes: {
       '/': (context) => const LoginScreen(),
       '/register': (context) => const RegisterScreen(),
@@ -58,5 +55,12 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+
+    // return BaseScreen(
+    //   title: "test",
+    //   child: const SizedBox(
+    //     height: 30,
+    //   ),
+    // );
   }
 }

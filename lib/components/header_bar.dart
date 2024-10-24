@@ -29,14 +29,14 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings, color: Colors.white),
-          onPressed: () {
-            // Xử lý hành động cài đặt ở đây
-          },
-        ),
-      ],
+      // actions: [
+      //   IconButton(
+      //     icon: const Icon(Icons.settings, color: Colors.white),
+      //     onPressed: () {
+      //       // Xử lý hành động cài đặt ở đây
+      //     },
+      //   ),
+      // ],
     );
   }
 
