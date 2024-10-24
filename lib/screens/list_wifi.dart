@@ -12,6 +12,8 @@ class _WiFiListScreenState extends State<WiFiListScreen> {
     'Ouransoft Techco',
     'CỬA BIỂN',
     'BaoHiem AIA',
+    'More Wi-Fi 1',
+    'More Wi-Fi 2',
   ];
 
   String? selectedSSID;
@@ -30,58 +32,69 @@ class _WiFiListScreenState extends State<WiFiListScreen> {
         ),
         alignment: Alignment.center,
         child: Container(
-          height: 500,
+          height: 600, // Tăng chiều cao để tận dụng không gian
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(horizontal: 30),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(15),
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.2),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
+              filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10), // Tăng độ mờ
               child: Padding(
-                padding: const EdgeInsets.all(25),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Spacer(),
-                    Center(
+                    const Center(
                       child: Text(
                         "Select Wi-Fi",
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                    const Spacer(),
+                    const SizedBox(height: 20),
+                    // Tăng chiều cao để hiện thêm nhiều Wi-Fi
                     Expanded(
                       child: ListView.builder(
                         itemCount: wifiList.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(
-                              wifiList[index],
-                              style: TextStyle(color: Colors.white),
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white.withOpacity(0.1),
                             ),
-                            trailing: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedSSID = wifiList[index];
-                                });
-                                _showPasswordDialog(context);
-                              },
-                              child: Text("Connect"),
+                            child: ListTile(
+                              title: Text(
+                                wifiList[index],
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              trailing: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    selectedSSID = wifiList[index];
+                                  });
+                                  _showPasswordDialog(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: const Text("Connect"),
+                              ),
                             ),
                           );
                         },
                       ),
                     ),
-                    const Spacer(),
                   ],
                 ),
               ),
@@ -97,11 +110,30 @@ class _WiFiListScreenState extends State<WiFiListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Enter Password for $selectedSSID"),
-          content: TextField(
-            controller: _passwordController,
-            decoration: InputDecoration(hintText: "Password"),
-            obscureText: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Text(
+            "Enter Password for $selectedSSID",
+            style: const TextStyle(fontSize: 18),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  hintText: "Password",
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Make sure the password is correct.",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -112,13 +144,19 @@ class _WiFiListScreenState extends State<WiFiListScreen> {
                 print("Connecting to $selectedSSID with password $password");
                 // Bạn có thể thêm logic kết nối ở đây
               },
-              child: Text("Connect"),
+              child: const Text(
+                "Connect",
+                style: TextStyle(color: Colors.blue),
+              ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );
