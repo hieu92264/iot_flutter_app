@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(initialRoute: '/', routes: {
       '/': (context) => const LoginScreen(),
+      // '/': (context) => WiFiListScreen(),
       '/register': (context) => const RegisterScreen(),
       '/forgot_password': (context) => const ForgotPasswordScreen(),
       '/list-wifi': (context) => WiFiListScreen(),
