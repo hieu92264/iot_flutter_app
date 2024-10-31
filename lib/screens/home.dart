@@ -389,7 +389,7 @@ int clickCount = 0;
                       if (!isAuto) const SizedBox(height: 20),
                       if (!isAuto)
                         Container(
-                          width: 460,
+                          width: double.infinity,
                           height: 100,
                           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           decoration: BoxDecoration(// Thêm màu nền nếu cần
