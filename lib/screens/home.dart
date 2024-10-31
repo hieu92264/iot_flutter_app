@@ -20,13 +20,18 @@ class _HomeState extends State<Home> {
       '24°C'; // Giá trị tạm thời cho thời tiết hiện tại
   String? currentHumidity = '60%';
   String? currentCondition = 'Ít mây';
-//   List<Map<String, String>> hourlyForecast = [
-//     {'hour': '10 AM', 'temp': '22°C', 'condition': 'Trời quang'},
-//     {'hour': '11 AM', 'temp': '24°C', 'condition': 'Ít mây'},
-//     {'hour': '12 PM', 'temp': '26°C', 'condition': 'Mưa'},
-//     {'hour': '1 PM', 'temp': '27°C', 'condition': 'Nhiều mây'},
-//     // Thêm các dự báo trong 24 giờ
-//   ]; // Dữ liệu dự báo hàng giờ
+  // List<Map<String, String>> hourlyForecast = [
+  //   {'hour': '10 AM', 'temp': '22°C', 'condition': 'Trời quang'},
+  //   {'hour': '11 AM', 'temp': '24°C', 'condition': 'Ít mây'},
+  //   {'hour': '12 PM', 'temp': '26°C', 'condition': 'Mưa'},
+  //   {'hour': '1 PM', 'temp': '27°C', 'condition': 'Nhiều mây'},
+  //   // Thêm các dự báo trong 24 giờ
+  // ]; // Dữ liệu dự báo hàng giờ
+
+List<Color> boxColors = [Colors.white, Colors.white, Colors.white];
+int clickCount = 0;
+
+
   List<Map<String, String>> hourlyForecast = [
     {'hour': '10 AM', 'temp': '22°C', 'condition': 'Trời quang'},
     {'hour': '11 AM', 'temp': '24°C', 'condition': 'Ít mây'},
@@ -60,6 +65,62 @@ class _HomeState extends State<Home> {
     _updateDateTime();
   }
 
+void _changeToBlack() async {
+  if (clickCount < 3) {
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        boxColors[clickCount] = Colors.black; // Đổi màu ô hiện tại sang đen
+      });
+    });
+    clickCount++; // Tăng clickCount
+  }
+}
+
+void _changeToWhite() async {
+  if (clickCount > 0) {
+    clickCount--; // Giảm clickCount để chuyển màu ô trước đó
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        boxColors[clickCount] = Colors.white; // Đổi màu ô hiện tại về trắng
+      });
+    });
+  }
+}
+
+  Widget _buildHexagon(Color color, int index) {
+    return ClipPath(
+      clipper: HexagonClipper(),
+      child: Container(
+        color: color,
+        height: 80,
+        width: 80,
+        alignment: Alignment.center,
+        child: Center(
+          child: Icon(
+            color == Colors.white
+                ? (index == 0
+                ? Icons.wb_sunny // Ô trắng thứ nhất
+                : index == 1
+                ? Icons.wb_sunny // Ô trắng thứ hai
+                : Icons.wb_sunny // Ô trắng thứ ba
+            )
+                : index == 0
+                ? Icons.cloud_queue // Ô đen thứ nhất
+                : index == 1
+                ? Icons.cloud // Ô đen thứ hai
+                : index == 2
+                ? Icons.beach_access // Ô đen thứ ba
+                : Icons.help_outline, // Biểu tượng mặc định cho các ô khác
+            color: color == Colors.white ? Colors.black : Colors.white, // Đổi màu biểu tượng
+            size: 40, // Kích thước icon
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
   void _updateDateTime() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final now = DateTime.now();
@@ -89,13 +150,13 @@ class _HomeState extends State<Home> {
         icon = Icons.wb_sunny; // Biểu tượng cho trời quang
         break;
       case 'Ít mây':
-        icon = Icons.cloud; // Biểu tượng cho ít mây
+        icon = Icons.cloud_queue; // Biểu tượng cho ít mây
         break;
       case 'Mưa':
         icon = Icons.beach_access; // Biểu tượng cho mưa
         break;
       case 'Nhiều mây':
-        icon = Icons.cloud_queue; // Biểu tượng cho nhiều mây
+        icon = Icons.cloud; // Biểu tượng cho nhiều mây
         break;
       case 'Nắng':
         icon = Icons.wb_sunny; // Biểu tượng cho nắng
@@ -114,6 +175,8 @@ class _HomeState extends State<Home> {
     }
     return Icon(icon, color: Colors.white, size: 50); // Tăng kích thước icon
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -316,39 +379,46 @@ class _HomeState extends State<Home> {
                       if (!isAuto) const SizedBox(height: 20),
                       if (!isAuto)
                         Container(
-                          width: double.infinity,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 2),
+                          width: 460,
+                          height: 100,
+                          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(// Thêm màu nền nếu cần
+                            borderRadius: BorderRadius.circular(20), // Bo tròn các góc
+                            border: Border.all(color: Colors.grey, width: 0),
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(Icons.arrow_left,
-                                  color: Colors.blue, size: 50),
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blue)),
+                              GestureDetector(
+                                onTap: _changeToWhite, // Mũi tên trái
+                                child: Icon(
+                                  Icons.arrow_left,
+                                  color: Colors.white,
+                                  size: 80,
+                                ),
                               ),
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blue)),
+                              // Các ô lục giác
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: List.generate(boxColors.length, (index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10), // Khoảng cách giữa các ô
+                                    child: _buildHexagon(boxColors[index], index),
+                                  );
+                                }),
                               ),
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blue)),
+                              GestureDetector(
+                                onTap: _changeToBlack, // Mũi tên phải
+                                child: Icon(
+                                  Icons.arrow_right,
+                                  color: Colors.white,
+                                  size: 80,
+                                ),
                               ),
-                              const Icon(Icons.arrow_right,
-                                  color: Colors.blue, size: 50),
                             ],
                           ),
-                        ),
+                        )
+
                     ],
                   ),
                 ),
@@ -359,4 +429,26 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+class HexagonClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    double width = size.width;
+    double height = size.height;
+
+    path.moveTo(width / 2, 0);
+    path.lineTo(width, height * 0.25);
+    path.lineTo(width, height * 0.75);
+    path.lineTo(width / 2, height);
+    path.lineTo(0, height * 0.75);
+    path.lineTo(0, height * 0.25);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
