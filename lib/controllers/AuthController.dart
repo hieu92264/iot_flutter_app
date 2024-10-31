@@ -4,8 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseUrl = 'http://10.0.2.2:8080/api';
-// const String baseUrl = 'http://192.168.1.16:8080/api';
+// const String baseUrl = 'http://10.0.2.2:8000/api';
+const String baseUrl = 'http://192.168.1.47:8000/api';
 
 class AuthController {
   // Mã hóa mật khẩu bằng SHA-256
