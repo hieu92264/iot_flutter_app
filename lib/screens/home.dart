@@ -67,29 +67,52 @@ int clickCount = 0;
     _updateDateTime();
   }
 
-void _changeToBlack() async {
-  if (clickCount < 3) {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        boxColors[clickCount] = Colors.black; // Đổi màu ô hiện tại sang đen
+  void _changeToDeepBlue() async {
+    if (clickCount < 3) {
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          boxColors[clickCount] = Colors.blue[300]!; // Change the current box color to deep blue
+        });
       });
-    });
-    clickCount++; // Tăng clickCount
+      clickCount++; // Increment clickCount
+    }
   }
-}
 
-void _changeToWhite() async {
-  if (clickCount > 0) {
-    clickCount--; // Giảm clickCount để chuyển màu ô trước đó
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        boxColors[clickCount] = Colors.white; // Đổi màu ô hiện tại về trắng
+  void _changeToWhite() async {
+    if (clickCount > 0) {
+      clickCount--; // Decrement clickCount to change the previous box color
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          boxColors[clickCount] = Colors.white; // Change the current box color to white
+        });
       });
-    });
+    }
   }
-}
 
   Widget _buildHexagon(Color color, int index) {
+    IconData icon;
+    Color iconColor;
+
+    // Determine the icon and color based on the box color and index
+    if (color == Colors.white) {
+      icon = Icons.wb_sunny;
+      iconColor = index == 0
+          ? Colors.red // First sun icon - Red
+          : index == 1
+          ? Colors.orange // Second sun icon - Orange
+          : Colors.yellow; // Third sun icon - Yellow
+    } else if (color == Colors.blue[300]) {
+      icon = index == 0
+          ? Icons.cloud_queue
+          : index == 1
+          ? Icons.cloud
+          : Icons.beach_access;
+      iconColor = Colors.white; // Icon color for deep blue boxes
+    } else {
+      icon = Icons.help_outline;
+      iconColor = Colors.white;
+    }
+
     return ClipPath(
       clipper: HexagonClipper(),
       child: Container(
@@ -97,29 +120,16 @@ void _changeToWhite() async {
         height: 80,
         width: 80,
         alignment: Alignment.center,
-        child: Center(
-          child: Icon(
-            color == Colors.white
-                ? (index == 0
-                ? Icons.wb_sunny // Ô trắng thứ nhất
-                : index == 1
-                ? Icons.wb_sunny // Ô trắng thứ hai
-                : Icons.wb_sunny // Ô trắng thứ ba
-            )
-                : index == 0
-                ? Icons.cloud_queue // Ô đen thứ nhất
-                : index == 1
-                ? Icons.cloud // Ô đen thứ hai
-                : index == 2
-                ? Icons.beach_access // Ô đen thứ ba
-                : Icons.help_outline, // Biểu tượng mặc định cho các ô khác
-            color: color == Colors.white ? Colors.black : Colors.white, // Đổi màu biểu tượng
-            size: 40, // Kích thước icon
-          ),
+        child: Icon(
+          icon,
+          color: iconColor,
+          size: 40,
         ),
       ),
     );
   }
+
+
 
 
 
@@ -410,7 +420,7 @@ void _changeToWhite() async {
                                 }),
                               ),
                               GestureDetector(
-                                onTap: _changeToBlack, // Mũi tên phải
+                                onTap: _changeToDeepBlue, // Mũi tên phải
                                 child: Icon(
                                   Icons.arrow_right,
                                   color: Colors.white,
