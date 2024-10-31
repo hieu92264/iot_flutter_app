@@ -11,244 +11,284 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  String email = 'nguyenvana@gmail.com';
+  String phoneNumber = '+84 123 456 789';
+  String address = 'Hà Nội, Việt Nam';
+  String userName = 'Nguyễn Văn A';
+  String userRole = 'Khách hàng';
+
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _verificationCodeController =
-      TextEditingController();
+  final TextEditingController _verificationCodeController = TextEditingController();
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   bool _isOldPasswordVisible = false;
   bool _isNewPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool isChangePasswordVisible = false; // Toggle for showing password change form
+  bool isCodeSent = false; // Toggle for code sent status
+
+  // Function to simulate sending verification code
+  void _sendVerificationCode() {
+    setState(() {
+      isCodeSent = true;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Verification code sent to $email')),
+    );
+  }
+
+  // Function to toggle password change form visibility
+  void _toggleChangePassword() {
+    setState(() {
+      isChangePasswordVisible = !isChangePasswordVisible;
+      isCodeSent = false; // Reset the code sent state
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      title: "User",
+      title: "",
       child: Scaffold(
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          alignment: Alignment.center,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/background.jpeg'),
               fit: BoxFit.fill,
             ),
           ),
+          alignment: Alignment.center,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white), // Thêm viền trắng
-                borderRadius: BorderRadius.circular(15), // Thêm bo góc
-                color: Colors.black.withOpacity(0.1), // Màu nền trong suốt
-              ),
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(15), // Áp dụng bo góc cho hiệu ứng mờ
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Hiệu ứng mờ
-                  child: Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "USER",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(height: 30),
-                        const Text(
-                          "Change Password",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        const SizedBox(height: 20),
-                        Column(
+            child: Column(
+              children: [
+                Container(
+                  height: 450, // Adjust the height for content
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.black.withOpacity(0.1),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Text(
+                              'THÔNG TIN TÀI KHOẢN',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Column(
+                              children: [
+                                Text(
+                                  userName,
+                                  style: TextStyle(fontSize: 20, color: Colors.white),
+                                ),
+                                const SizedBox(height: 10),
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: Colors.blue.shade100,
+                                  child: Icon(Icons.person, size: 40, color: Colors.blue),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  userRole,
+                                  style: TextStyle(fontSize: 16, color: Colors.white70),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
                             Row(
                               children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: _emailController,
-                                    style: const TextStyle(color: Colors.white),
-                                    decoration: const InputDecoration(
-                                      labelText: 'Email',
-                                      labelStyle:
-                                          TextStyle(color: Colors.white),
-                                      suffixIcon:
-                                          Icon(Icons.mail, color: Colors.white),
-                                      border: UnderlineInputBorder(),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                Icon(Icons.email, color: Colors.white70),
                                 const SizedBox(width: 10),
-                                ElevatedButton(
-                                  onPressed: _sendVerificationCode,
-                                  child: const Text('Send Code'),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                  ),
+                                Text(
+                                  email,
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 10),
-                            TextFormField(
-                              controller: _verificationCodeController,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: const InputDecoration(
-                                labelText: 'Verification Code',
-                                labelStyle: TextStyle(color: Colors.white),
-                                suffixIcon:
-                                    Icon(Icons.code, color: Colors.white),
-                                border: UnderlineInputBorder(),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                            Row(
+                              children: [
+                                Icon(Icons.phone, color: Colors.white70),
+                                const SizedBox(width: 10),
+                                Text(
+                                  phoneNumber,
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
                                 ),
-                              ),
+                              ],
                             ),
                             const SizedBox(height: 10),
-                            TextFormField(
-                              controller: _oldPasswordController,
-                              obscureText: !_isOldPasswordVisible,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'Old Password',
-                                labelStyle:
-                                    const TextStyle(color: Colors.white),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _isOldPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isOldPasswordVisible =
-                                          !_isOldPasswordVisible;
-                                    });
-                                  },
+                            Row(
+                              children: [
+                                Icon(Icons.location_on, color: Colors.white70),
+                                const SizedBox(width: 10),
+                                Text(
+                                  address,
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
                                 ),
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
+                              ],
                             ),
-                            const SizedBox(height: 10),
-                            TextFormField(
-                              controller: _newPasswordController,
-                              obscureText: !_isNewPasswordVisible,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'New Password',
-                                labelStyle:
-                                    const TextStyle(color: Colors.white),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _isNewPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isNewPasswordVisible =
-                                          !_isNewPasswordVisible;
-                                    });
-                                  },
-                                ),
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            TextFormField(
-                              controller: _confirmPasswordController,
-                              obscureText: !_isConfirmPasswordVisible,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'Confirm Password',
-                                labelStyle:
-                                    const TextStyle(color: Colors.white),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _isConfirmPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isConfirmPasswordVisible =
-                                          !_isConfirmPasswordVisible;
-                                    });
-                                  },
-                                ),
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: _toggleChangePassword,
+                              child: Text(isChangePasswordVisible ? 'Hủy đổi mật khẩu' : 'Đổi mật khẩu'),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: _changePassword, // Thay đổi mật khẩu
-                          child: const Text('Change Password'),
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 80, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                if (isChangePasswordVisible)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.black.withOpacity(0.1),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: _verificationCodeController,
+                                style: const TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                  labelText: 'Nhập mã xác nhận',
+                                  prefixIcon: Icon(Icons.verified_user, color: Colors.white),
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: isCodeSent ? null : _sendVerificationCode,
+                              child: Text(isCodeSent ? 'Đã gửi' : 'Gửi mã'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _oldPasswordController,
+                          obscureText: !_isOldPasswordVisible,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Mật khẩu cũ',
+                            labelStyle: const TextStyle(color: Colors.white),
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isOldPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isOldPasswordVisible = !_isOldPasswordVisible;
+                                });
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _newPasswordController,
+                          obscureText: !_isNewPasswordVisible,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Mật khẩu mới',
+                            labelStyle: const TextStyle(color: Colors.white),
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isNewPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isNewPasswordVisible = !_isNewPasswordVisible;
+                                });
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _confirmPasswordController,
+                          obscureText: !_isConfirmPasswordVisible,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Xác nhận mật khẩu',
+                            labelStyle: const TextStyle(color: Colors.white),
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                });
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        // OutlinedButton(
-                        //   onPressed: () {
-                        //     // Logic to log out
-                        //   },
-                        //   child: const Text('Log Out'),
-                        //   style: OutlinedButton.styleFrom(
-                        //     padding: const EdgeInsets.symmetric(
-                        //         horizontal: 60, vertical: 15),
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(30),
-                        //     ),
-                        //   ),
-                        // ),
                         ElevatedButton(
-                          onPressed: () =>
-                              _doLogout(context), // Thay đổi mật khẩu
-                          child: const Text('Log out'),
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 80, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
+                          onPressed: () {
+                            if (_newPasswordController.text == _confirmPasswordController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Mật khẩu đã được đổi thành công!')),
+                              );
+                              setState(() {
+                                isChangePasswordVisible = false;
+                                isCodeSent = false; // Reset state after success
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Mật khẩu không khớp!')),
+                              );
+                            }
+                          },
+                          child: const Text('Xác nhận'),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ),
+              ],
             ),
           ),
         ),
@@ -256,51 +296,16 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  // Send verification code
-  void _sendVerificationCode() {
-    String email = _emailController.text.trim();
-    if (email.isNotEmpty) {
-      // Logic to send verification code to email
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verification code sent to $email')),
-      );
+  // Function to log out
+  void _doLogout(BuildContext context) async {
+    final AuthController authController = AuthController();
+    String response = await authController.doLogout(context);
+    if (response == "success") {
+      Navigator.pushReplacementNamed(context, '/');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid email')),
+        SnackBar(content: Text(response)),
       );
     }
-  }
-
-  // Change password
-  void _changePassword() {
-    // Logic to change the password
-    String newPassword = _newPasswordController.text.trim();
-    String confirmPassword = _confirmPasswordController.text.trim();
-
-    if (newPassword == confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password changed successfully')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
-      );
-    }
-  }
-}
-
-void _doLogout(BuildContext context) async {
-  final AuthController authController =
-      AuthController(); // Khởi tạo AuthController
-  String response =
-      await authController.doLogout(context); // Gọi phương thức doLogout
-  if (response == "success") {
-    Navigator.pushReplacementNamed(
-        context, '/'); // Chuyển hướng về trang đăng nhập
-  } else {
-    // Xử lý thông báo lỗi nếu cần
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(response)), // Hiển thị thông báo
-    );
   }
 }
