@@ -77,9 +77,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Row(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon:
+                              const Icon(Icons.arrow_back, color: Colors.white),
                           onPressed: () {
-                            Navigator.pop(context); // Quay lại trang LoginScreen
+                            Navigator.pop(
+                                context); // Quay lại trang LoginScreen
                           },
                         ),
                       ],
@@ -97,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
-                          Border(bottom: BorderSide(color: Colors.white))),
+                              Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _usernameController,
                         style: const TextStyle(color: Colors.white),
@@ -117,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
-                          Border(bottom: BorderSide(color: Colors.white))),
+                              Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.white),
@@ -136,15 +138,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.white))),
+                          border:
+                              Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _passwordController,
-                        obscureText: !_isPasswordVisible, // Ẩn mật khẩu khi _isPasswordVisible là false
+                        obscureText:
+                            !_isPasswordVisible, // Ẩn mật khẩu khi _isPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.white,
                             ),
                             onPressed: () {
@@ -159,24 +165,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const Spacer(),
-                    TextUtil(text: "Repeat Password"), // Thêm tiêu đề cho Repeat Password
+                    TextUtil(
+                        text:
+                            "Repeat Password"), // Thêm tiêu đề cho Repeat Password
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.white))),
+                          border:
+                              Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _repeatPasswordController,
-                        obscureText: !_isRepeatPasswordVisible, // Ẩn mật khẩu khi _isRepeatPasswordVisible là false
+                        obscureText:
+                            !_isRepeatPasswordVisible, // Ẩn mật khẩu khi _isRepeatPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isRepeatPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              _isRepeatPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.white,
                             ),
                             onPressed: () {
                               setState(() {
-                                _isRepeatPasswordVisible = !_isRepeatPasswordVisible;
+                                _isRepeatPasswordVisible =
+                                    !_isRepeatPasswordVisible;
                               });
                             },
                           ),
@@ -200,10 +213,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         String password = _passwordController.text;
                         String username = _usernameController.text;
                         // Thêm logic để đăng ký tài khoản ở đây
-                        String result = await _authcontroller.doRegister(username, email, password, context);
+                        String response = await _authcontroller.doRegister(
+                            username, email, password, context);
                         setState(() {
-                          registerStatus = result;
+                          registerStatus = response;
                         });
+                        if (response == "success") {
+                          // Nếu đăng nhập thành công, điều hướng tới màn hình tiếp theo
+                          Navigator.pushReplacementNamed(context, '/list-wifi');
+                        }
                       },
                       child: Container(
                         height: 40,

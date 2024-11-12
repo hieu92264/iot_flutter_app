@@ -28,9 +28,8 @@ class _HomeState extends State<Home> {
   //   // Thêm các dự báo trong 24 giờ
   // ]; // Dữ liệu dự báo hàng giờ
 
-List<Color> boxColors = [Colors.white, Colors.white, Colors.white];
-int clickCount = 0;
-
+  List<Color> boxColors = [Colors.white, Colors.white, Colors.white];
+  int clickCount = 0;
 
   List<Map<String, String>> hourlyForecast = [
     {'hour': '10 AM', 'temp': '22°C', 'condition': 'Trời quang'},
@@ -65,61 +64,62 @@ int clickCount = 0;
     _updateDateTime();
   }
 
-void _changeToBlack() async {
-  if (clickCount < 3) {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        boxColors[clickCount] = Colors.black; // Đổi màu ô hiện tại sang đen
+  void _changeToBlack() async {
+    if (clickCount < 3) {
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          boxColors[clickCount] = Colors.black; // Đổi màu ô hiện tại sang đen
+        });
       });
-    });
-    clickCount++; // Tăng clickCount
+      clickCount++; // Tăng clickCount
+    }
   }
-}
 
-void _changeToWhite() async {
-  if (clickCount > 0) {
-    clickCount--; // Giảm clickCount để chuyển màu ô trước đó
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        boxColors[clickCount] = Colors.white; // Đổi màu ô hiện tại về trắng
+  void _changeToWhite() async {
+    if (clickCount > 0) {
+      clickCount--; // Giảm clickCount để chuyển màu ô trước đó
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          boxColors[clickCount] = Colors.white; // Đổi màu ô hiện tại về trắng
+        });
       });
-    });
+    }
   }
-}
 
   Widget _buildHexagon(Color color, int index) {
     return ClipPath(
       clipper: HexagonClipper(),
       child: Container(
         color: color,
-        height: 80,
-        width: 80,
+        height: 70,
+        width: 70,
         alignment: Alignment.center,
         child: Center(
           child: Icon(
             color == Colors.white
                 ? (index == 0
-                ? Icons.wb_sunny // Ô trắng thứ nhất
-                : index == 1
-                ? Icons.wb_sunny // Ô trắng thứ hai
-                : Icons.wb_sunny // Ô trắng thứ ba
-            )
+                        ? Icons.wb_sunny // Ô trắng thứ nhất
+                        : index == 1
+                            ? Icons.wb_sunny // Ô trắng thứ hai
+                            : Icons.wb_sunny // Ô trắng thứ ba
+                    )
                 : index == 0
-                ? Icons.cloud_queue // Ô đen thứ nhất
-                : index == 1
-                ? Icons.cloud // Ô đen thứ hai
-                : index == 2
-                ? Icons.beach_access // Ô đen thứ ba
-                : Icons.help_outline, // Biểu tượng mặc định cho các ô khác
-            color: color == Colors.white ? Colors.black : Colors.white, // Đổi màu biểu tượng
-            size: 40, // Kích thước icon
+                    ? Icons.cloud_queue // Ô đen thứ nhất
+                    : index == 1
+                        ? Icons.cloud // Ô đen thứ hai
+                        : index == 2
+                            ? Icons.beach_access // Ô đen thứ ba
+                            : Icons
+                                .help_outline, // Biểu tượng mặc định cho các ô khác
+            color: color == Colors.white
+                ? Colors.black
+                : Colors.white, // Đổi màu biểu tượng
+            size: 35, // Kích thước icon
           ),
         ),
       ),
     );
   }
-
-
 
   void _updateDateTime() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -175,8 +175,6 @@ void _changeToWhite() async {
     }
     return Icon(icon, color: Colors.white, size: 50); // Tăng kích thước icon
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -381,9 +379,12 @@ void _changeToWhite() async {
                         Container(
                           width: 460,
                           height: 100,
-                          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(// Thêm màu nền nếu cần
-                            borderRadius: BorderRadius.circular(20), // Bo tròn các góc
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            // Thêm màu nền nếu cần
+                            borderRadius:
+                                BorderRadius.circular(20), // Bo tròn các góc
                             border: Border.all(color: Colors.grey, width: 0),
                           ),
                           child: Row(
@@ -399,11 +400,16 @@ void _changeToWhite() async {
                               ),
                               // Các ô lục giác
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: List.generate(boxColors.length, (index) {
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children:
+                                    List.generate(boxColors.length, (index) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10), // Khoảng cách giữa các ô
-                                    child: _buildHexagon(boxColors[index], index),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            10), // Khoảng cách giữa các ô
+                                    child:
+                                        _buildHexagon(boxColors[index], index),
                                   );
                                 }),
                               ),
@@ -418,7 +424,6 @@ void _changeToWhite() async {
                             ],
                           ),
                         )
-
                     ],
                   ),
                 ),
