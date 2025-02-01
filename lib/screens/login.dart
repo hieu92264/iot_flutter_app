@@ -11,16 +11,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthController _authController = AuthController();
   String loginStatus = '';
   bool rememberMe = false; // Biến để theo dõi trạng thái của checkbox
   bool isLoading = false; // Biến để quản lý trạng thái loading
+  bool _isPasswordVisible =
+      false; // Thêm biến trạng thái để theo dõi xem mật khẩu có được hiển thị hay không
 
   // Hàm để kiểm tra đầu vào
   String? validateInput() {
-    if (_usernameController.text.isEmpty) {
+    if (_emailController.text.isEmpty) {
       return "User name is required";
     }
     if (_passwordController.text.isEmpty) {
@@ -68,14 +70,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const Spacer(),
-                    TextUtil(text: "User name"),
+                    TextUtil(text: "Email"),
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
                               Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
-                        controller: _usernameController,
+                        controller: _emailController,
                         style: const TextStyle(color: Colors.white),
                         decoration: const InputDecoration(
                           suffixIcon: Icon(
@@ -96,12 +98,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText:
+                            !_isPasswordVisible, // Ẩn mật khẩu khi _isPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.white,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              // Thay đổi trạng thái hiển thị mật khẩu
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
                           ),
                           fillColor: Colors.white,
                           border: InputBorder.none,
@@ -175,9 +188,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           // Gọi API đăng nhập
                           String response = await _authController.doLogin(
-                              _usernameController.text,
+                              _emailController.text,
                               _passwordController.text,
-                              context);
+                              context,
+                              remember: rememberMe);
 
                           setState(() {
                             isLoading = false; // Kết thúc loading
@@ -245,4 +259,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

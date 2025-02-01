@@ -19,6 +19,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       TextEditingController(); // Thêm biến cho Repeat Password
   final AuthController _authcontroller = AuthController();
   String registerStatus = '';
+  // Thêm các biến trạng thái để theo dõi xem mật khẩu và mật khẩu lặp lại có được hiển thị hay không
+  bool _isPasswordVisible = false;
+  bool _isRepeatPasswordVisible = false;
 
   // Hàm kiểm tra đầu vào
   String? validateInput() {
@@ -70,7 +73,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Spacer(),
+                    // Nút Back nằm t rong Container
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context); // Quay lại trang LoginScreen
+                          },
+                        ),
+                      ],
+                    ),
                     Center(
                       child: TextUtil(
                         text: "Register",
@@ -84,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _usernameController,
                         style: const TextStyle(color: Colors.white),
@@ -104,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 35,
                       decoration: const BoxDecoration(
                           border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.white),
@@ -123,16 +136,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
-                          border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          border: Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: !_isPasswordVisible, // Ẩn mật khẩu khi _isPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.white,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
                           ),
                           fillColor: Colors.white,
                           border: InputBorder.none,
@@ -140,22 +159,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const Spacer(),
-                    TextUtil(
-                        text:
-                            "Repeat Password"), // Thêm tiêu đề cho Repeat Password
+                    TextUtil(text: "Repeat Password"), // Thêm tiêu đề cho Repeat Password
                     Container(
                       height: 35,
                       decoration: const BoxDecoration(
-                          border:
-                              Border(bottom: BorderSide(color: Colors.white))),
+                          border: Border(bottom: BorderSide(color: Colors.white))),
                       child: TextFormField(
                         controller: _repeatPasswordController,
-                        obscureText: true,
+                        obscureText: !_isRepeatPasswordVisible, // Ẩn mật khẩu khi _isRepeatPasswordVisible là false
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.white,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isRepeatPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isRepeatPasswordVisible = !_isRepeatPasswordVisible;
+                              });
+                            },
                           ),
                           fillColor: Colors.white,
                           border: InputBorder.none,
@@ -168,10 +191,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         String? validationMessage = validateInput();
                         if (validationMessage != null) {
                           setState(() {
-                            registerStatus =
-                                validationMessage; // Hiển thị thông báo lỗi
+                            registerStatus = validationMessage;
                           });
-                          return; // Dừng hàm nếu đầu vào không hợp lệ
+                          return;
                         }
 
                         String email = _emailController.text;
